@@ -383,13 +383,9 @@ app.get('/login', (req, res) => {
   if (!CLIENT_ID || !CLIENT_SECRET || !REDIRECT_URI) {
     return res.send(page('Config error', `<div class='alert alert-danger'>Missing DISCORD_CLIENT_ID / DISCORD_CLIENT_SECRET / DISCORD_REDIRECT_URI</div>`));
   }
-  const url = `${DISCORD_API}/oauth2/authorize`
-    + `?client_id=${encodeURIComponent(CLIENT_ID)}`
-    + `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`
-    + `&response_type=code`
-    + `&scope=${encodeURIComponent(OAUTH_SCOPE)}`;
-  res.redirect(url);
-});
+  
+ const addBotUrl = `https://discord.com/oauth2/authorize?client_id=1450459526410014741&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Floggerbyshavgula.up.railway.app%2Fcallback&integration_type=0&scope=bot`;
+
 
 app.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/'));
