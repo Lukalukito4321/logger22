@@ -428,7 +428,13 @@ app.get('/guilds', async (req, res) => {
   if (!clientId) return res.status(500).send('<h3>Missing BOT_CLIENT_ID (Application ID) in .env</h3>');
 
   const perms = process.env.BOT_PERMISSIONS || '8';
-  const addBotUrl = `https://discord.com/oauth2/authorize?client_id=${encodeURIComponent(clientId)}&scope=bot%20applications.commands&permissions=${encodeURIComponent(perms)}`;
+  const addBotUrl =
+  'https://discord.com/oauth2/authorize'
+  + `?client_id=${encodeURIComponent(clientId)}`
+  + '&scope=bot%20applications.commands'
+  + `&permissions=${encodeURIComponent(perms)}`
+  + '&response_type=code';
+
 
   let manageableHtml = '';
   for (const g of manageable) {
