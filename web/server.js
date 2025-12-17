@@ -384,7 +384,7 @@ app.get('/login', (req, res) => {
     return res.send(page('Config error', `<div class='alert alert-danger'>Missing DISCORD_CLIENT_ID / DISCORD_CLIENT_SECRET / DISCORD_REDIRECT_URI</div>`));
   }
   
- const addBotUrl = `https://discord.com/oauth2/authorize?client_id=1450459526410014741&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Floggerbyshavgula.up.railway.app%2Fcallback&integration_type=0&scope=bot`;
+ const addBotUrl = `https://discord.com/oauth2/authorize?client_id=1450459526410014741&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Floggerbyshavgula.up.railway.app%2Fcallback&scope=bot`;
 
 
 app.get('/logout', (req, res) => {
