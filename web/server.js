@@ -24,14 +24,26 @@ const OAUTH_SCOPE = 'identify guilds';
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+// Railway/HTTPS proxy support
+app.set('trust proxy', 1);
+
 app.use(session({
   secret: SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: { httpOnly: true }
+  cookie: {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: true
+  }
 }));
 
 function page(title, body, loggedIn=false) {
+  const rightControls = loggedIn
+    ? `<span class="pill"><i class="bi bi-check-circle-fill" style="color:rgba(34,197,94,.95)"></i><span class="small">Signed in</span></span>
+          <a class="btn btn-outline-light btn-sm" href="/logout"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>`
+    : `<span class="pill"><i class="bi bi-person-circle"></i><span class="small">Guest</span></span>`;
+
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -258,12 +270,7 @@ function page(title, body, loggedIn=false) {
       </div>
 
       <div class="d-flex align-items-center gap-2">
-        ${loggedIn ? `
-          <span class="pill"><i class="bi bi-check-circle-fill" style="color:rgba(34,197,94,.95)"></i><span class="small">Signed in</span></span>
-          <a class="btn btn-outline-light btn-sm" href="/logout"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
-        ` : `
-          <span class="pill"><i class="bi bi-person-circle"></i><span class="small">Guest</span></span>
-        `}
+        ${rightControls}
       </div>
     </div>
 
@@ -361,7 +368,7 @@ app.get('/', (req, res) => {
             <li>Load channels from your server to avoid copy/paste</li>
           </ul>
           <div class="divider"></div>
-          <div class="hint">Tip: If OAuth fails, double-check <span class="kbd"></div>
+          <div class="hint">Tip: If OAuth fails, double-check <span class="kbd">DISCORD_REDIRECT_URI</span>
         </div>
         <div class="col-lg-4 text-lg-end">
           <a class="btn btn-primary w-100" href="/login"><i class="bi bi-discord me-1"></i>Login with Discord</a>
